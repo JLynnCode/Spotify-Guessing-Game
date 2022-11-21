@@ -54,24 +54,6 @@ const Home = () => {
   if (authLoading || configLoading) {
     return <div>Loading...</div>
   }
-
-  return (
-
-    <div>
-      Genre:
-      <select
-        value={selectedGenre}
-        onChange={event => setSelectedGenre(event.target.value)}
-      >
-        <option value='' />
-        {genres.map(genre => (
-          <option key={genre} value={genre}>
-            {genre}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
 }
 
 export default Home
