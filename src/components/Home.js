@@ -20,6 +20,7 @@ const Home = () => {
     })
     console.log(response)
     setGenres(response.genres)
+    localStorage.setItem('lsGenres', response.genres)
     setConfigLoading(false)
   }
 
