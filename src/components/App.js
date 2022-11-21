@@ -1,16 +1,19 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
 import Home from './Home'
-import ConfigPage from './Config'
-import GamePage from './Game'
+import Config from './Config'
+import Game from './Game'
+
 
 const App = () => (
   <div>
-    <Route exact path='/' component={Home} />
-    <Route exact path='/config' component={ConfigPage} />
-    <Route exact path='/game' component={GamePage} />
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/config" component={Config} />
+      <Route exact path="/game" component={Game} />
+    </Switch>
   </div>
-)
+);
 
-export default App
+export default App;
