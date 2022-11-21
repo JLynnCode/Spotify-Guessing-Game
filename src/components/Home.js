@@ -3,7 +3,7 @@ import fetchFromSpotify, { request } from '../services/api'
 
 const AUTH_ENDPOINT =
   'https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token'
-const TOKEN_KEY = 'whos-who-access-token'
+export const TOKEN_KEY = 'whos-who-access-token'
 
 const Home = () => {
   const [genres, setGenres] = useState([])
@@ -55,6 +55,7 @@ const Home = () => {
   }
 
   return (
+
     <div>
       Genre:
       <select
