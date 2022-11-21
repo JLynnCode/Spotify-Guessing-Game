@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom'
 
 let trackNumberList = [1, 2, 3];
 let artistNumberList = [2,3,4];
@@ -8,6 +9,8 @@ const Config = () => {
   const [selectedNumberOfTracks, setNumberOfTracks] = useState("");
   const [selectedNumberOfArtists, setNumberOfArtists] = useState("");
 
+  const history = useHistory();
+
   function savePreferences() {
     localStorage.setItem("genrePreference", selectedGenre);
     localStorage.setItem("numberOfTracksPreference", selectedNumberOfTracks);
@@ -16,6 +19,7 @@ const Config = () => {
 
   function clickStartGame() {
     savePreferences();
+    setTimeout(() => history.push('/game'), 1000)
   }
 
   

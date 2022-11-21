@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import fetchFromSpotify, { request } from '../services/api'
+import { useHistory } from 'react-router-dom'
 
 const AUTH_ENDPOINT =
   'https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token'
@@ -12,6 +13,8 @@ const Home = () => {
   const [configLoading, setConfigLoading] = useState(false)
   const [token, setToken] = useState('')
 
+  const history = useHistory()
+
   const loadGenres = async t => {
     setConfigLoading(true)
     const response = await fetchFromSpotify({
@@ -22,6 +25,7 @@ const Home = () => {
     setGenres(response.genres)
     localStorage.setItem('lsGenres', response.genres)
     setConfigLoading(false)
+    history.push('/config')
   }
 
   useEffect(() => {
@@ -54,24 +58,8 @@ const Home = () => {
   if (authLoading || configLoading) {
     return <div>Loading...</div>
   }
-
-  return (
-
-    <div>
-      Genre:
-      <select
-        value={selectedGenre}
-        onChange={event => setSelectedGenre(event.target.value)}
-      >
-        <option value='' />
-        {genres.map(genre => (
-          <option key={genre} value={genre}>
-            {genre}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
+  
+  return null
 }
 
 export default Home
