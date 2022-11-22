@@ -9,7 +9,7 @@ let artists = [
 
 let selectedArtist = artists[0];
 
-const Game = () => {
+const Game2 = () => {
 
   const [checkedIndex, setCheckedIndex] = useState(0);
   
@@ -53,4 +53,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default Game2;
