@@ -14,6 +14,7 @@ const Game = () => {
   const [tracks, setTracks] = useState([])
   const [correctArtist, setCorrectArtist] = useState([])
 
+ 
 
   const genreSelection = localStorage.getItem("genrePreference")
   const numberOfTracks = JSON.parse(localStorage.getItem("numberOfTracksPreference"))
@@ -39,6 +40,8 @@ const Game = () => {
     console.log(response)
     setTracks(response.tracks.slice(0, numberOfTracks))
   }
+
+  
 
   // fetch list of artists
   useEffect(() => {
@@ -104,9 +107,16 @@ const Game = () => {
   // console.log(correctArtist)
 
   //==============MICHAEL MERGES BELOW THIS===================
+  
   useEffect(() => {
     guessedArtist = selectedArtists[0]
+    // console.log(`inside useEffect, selectedArtists[0].name: ${selectedArtists[0].name}`)
+    // console.log(`inside useEffect, selectedArtists[0]: ${selectedArtists[0]}`)
+    // console.log(`inside useEffect, selectedArtists: ${selectedArtists}`)
   }, [])
+
+  // console.log(`below useEffect, selectedArtists[0]: ${selectedArtists[0]}`)
+  // console.log(`below useEffect, selectedArtists: ${selectedArtists}`)
 
   // let guessedArtist = selectedArtists[0];
 
