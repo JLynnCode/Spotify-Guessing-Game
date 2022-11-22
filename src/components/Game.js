@@ -152,21 +152,25 @@ const Game = () => {
         <span>{localStorage.getItem("remainingGuesses")}</span>
       </div>
       <div>
-        {selectedArtists.map((artist, i) => {
-          return (
-            <label key={artist.id}>
-              <input
-                type="radio"
-                className={"form-check-input"}
-                checked={checkedIndex === i ? true : false}
-                key={artist.id}
-                onChange={updateRadioChoice.bind(this, i)}
-                value={artist.name}
-              />
-              {artist.name}
-            </label>
-          );
-        })}
+        <ul>
+          {selectedArtists.map((artist, i) => {
+            return (
+              <li>
+                <label key={artist.id}>
+                  <input
+                    type="radio"
+                    className={"form-check-input"}
+                    checked={checkedIndex === i ? true : false}
+                    key={artist.id}
+                    onChange={updateRadioChoice.bind(this, i)}
+                    value={artist.name}
+                  />
+                  {artist.name}
+                </label>
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <div className="form-group">
         <button className="btn" type="submit" onClick={handleFormSubmit}>
