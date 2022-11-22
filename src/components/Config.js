@@ -19,7 +19,11 @@ const Config = () => {
 
   function clickStartGame() {
     savePreferences();
+
     setTimeout(() => history.push('/game'), 1000)
+
+    console.log("starting game NOW!!")
+
   }
 
   
