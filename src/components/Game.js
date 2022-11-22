@@ -5,6 +5,8 @@ import { TOKEN_KEY } from './Home'
 
 const storedToken = JSON.parse(localStorage.getItem(TOKEN_KEY))
 
+let guessedArtist = ''
+
 const Game = () => {
 
   const [artists, setArtists] = useState([])
@@ -90,23 +92,64 @@ const Game = () => {
   }
 
   //need to store selectedArtists, tracks, and correctArtist
-  console.log(storedToken)
-  console.log(genreSelection)
-  console.log(numberOfArtists)
-  console.log(numberOfTracks)
+  // console.log(storedToken)
+  // console.log(genreSelection)
+  // console.log(numberOfArtists)
+  // console.log(numberOfTracks)
+  // // console.log(tracks)
+  // // console.log(artists)
+  // // console.log(artists[0])
+  // // console.log(`selectedArtists: ${selectedArtists}`)
   // console.log(tracks)
-  // console.log(artists)
-  // console.log(artists[0])
-  console.log(selectedArtists)
-  console.log(tracks)
-  console.log(correctArtist)
+  // console.log(correctArtist)
+
+  //==============MICHAEL MERGES BELOW THIS===================
+  useEffect(() => {
+    guessedArtist = selectedArtists[0]
+  }, [])
+
+  // let guessedArtist = selectedArtists[0];
+
+  const [checkedIndex, setCheckedIndex] = useState(0);
+  
+  function updateRadioChoice(i){
+    setCheckedIndex(i);
+    console.log(`setCheckedIndex to ${i}`)
+    console.log(`artist at index ${i} is ${selectedArtists[i].name}`)
+    guessedArtist = selectedArtists[i];
+  }
+
+  function handleFormSubmit() {
+    console.log(`You have guessed index ${checkedIndex}: artist name: ${guessedArtist.name}`);
+  }
 
   return (
     <div>
-
+      <div>
+        {selectedArtists.map((artist, i) => {
+          return (
+            <label key={artist.id}>
+              <input
+                type="radio"
+                className={"form-check-input"}
+                checked={checkedIndex == i ? true : false}
+                key={artist.id}
+                onChange={updateRadioChoice.bind(this, i)}
+                value={artist.name}
+              />
+              {artist.name}
+            </label>
+          );
+        })}
+      </div>
+      <div className="form-group">
+        <button className="btn" type="submit" onClick={handleFormSubmit}>
+          Submit Guess
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Game
 
