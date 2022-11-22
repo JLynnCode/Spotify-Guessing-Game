@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 let trackNumberList = [1, 2, 3];
-let artistNumberList = [2,3,4];
+let artistNumberList = [2, 3, 4];
 
 const Config = () => {
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedNumberOfTracks, setNumberOfTracks] = useState("");
-  const [selectedNumberOfArtists, setNumberOfArtists] = useState("");
-
+  const [selectedGenre, setSelectedGenre] = useState(
+    localStorage.getItem("genrePreference") == null
+      ? ""
+      : localStorage.getItem("genrePreference")
+  );
+  const [selectedNumberOfTracks, setNumberOfTracks] = useState(
+    localStorage.getItem("numberOfTracksPreference") == null
+      ? ""
+      : localStorage.getItem("numberOfTracksPreference")
+  );
+  const [selectedNumberOfArtists, setNumberOfArtists] = useState(
+    localStorage.getItem("numberOfArtistsPreference") == null
+      ? ""
+      : localStorage.getItem("numberOfArtistsPreference")
+  );
   const history = useHistory();
 
   function savePreferences() {
@@ -19,17 +30,16 @@ const Config = () => {
 
   function clickStartGame() {
     savePreferences();
+    localStorage.setItem("remainingGuesses", 3);
 
-    setTimeout(() => history.push('/game'), 1000)
+    setTimeout(() => history.push("/game"), 1000);
 
-    console.log("starting game NOW!!")
-
+    console.log("starting game NOW!!");
   }
 
-  
   return (
-    //GENRE DROP DOWN
     <div>
+      {/* //GENRE DROP DOWN */}
       <div>
         Genre:
         <select
@@ -83,8 +93,7 @@ const Config = () => {
         <button onClick={clickStartGame}>Start Game</button>
       </div>
     </div>
-    // <h1>config</h1>
   );
 };
 
-export default Config
+export default Config;
