@@ -24,7 +24,7 @@ const Home = () => {
     console.log(response)
     setGenres(response.genres)
     localStorage.setItem('lsGenres', response.genres)
-    setConfigLoading(false)
+    setTimeout(() => setConfigLoading(false), 1000)
     history.push('/config')
   }
 
