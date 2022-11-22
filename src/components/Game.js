@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import fetchFromSpotify, { request } from '../services/api'
+import { AudioPlayerProvider } from 'react-use-audio-player'
+import { AudioPlayer } from './MediaPlayback/AudioPlayer'
 
 import { TOKEN_KEY } from './Home'
 
@@ -34,7 +36,6 @@ const Game = () => {
       token: t,
       endpoint: `artists/${selectedArtists[i].id}/top-tracks?country=US`
     })
-    console.log(response)
     setTracks(response.tracks.slice(0, numberOfTracks))
   }
 
@@ -64,6 +65,7 @@ const Game = () => {
       }
   }, [selectedArtists])
 
+  // saves fetched options for a game round
   useEffect(() => {
 
     localStorage.setItem('artistChoices', JSON.stringify(selectedArtists))
@@ -89,22 +91,18 @@ const Game = () => {
     setCorrectArtist(array[i])
   }
 
-  //need to store selectedArtists, tracks, and correctArtist
-  console.log(storedToken)
-  console.log(genreSelection)
-  console.log(numberOfArtists)
-  console.log(numberOfTracks)
+  // console.log(storedToken)
+  // console.log(genreSelection)
+  // console.log(numberOfArtists)
+  // console.log(numberOfTracks)
+  // console.log(selectedArtists)
   // console.log(tracks)
-  // console.log(artists)
-  // console.log(artists[0])
-  console.log(selectedArtists)
-  console.log(tracks)
-  console.log(correctArtist)
+  // console.log(correctArtist)
 
   return (
-    <div>
-
-    </div>
+        <AudioPlayerProvider>
+          <AudioPlayer />
+        </AudioPlayerProvider>
   )
 }
 

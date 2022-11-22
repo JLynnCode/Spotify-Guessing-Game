@@ -9,7 +9,8 @@ import Game from './Game'
 const App = () => (
   <div>
     <Switch>
-      <Route exact path="/" component={Config} />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/config" component={Config} />
       <Route exact path="/game" component={Game} />
     </Switch>
   </div>
