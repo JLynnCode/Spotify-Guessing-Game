@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
 import classes from "../styles/Game.css";
+import { AudioPlayerProvider } from 'react-use-audio-player'
+import { AudioPlayer } from './MediaPlayback/AudioPlayer'
 
 const storedToken = JSON.parse(localStorage.getItem(TOKEN_KEY));
 
@@ -40,11 +42,10 @@ const Game = () => {
   const loadTracks = async (t, i) => {
     const response = await fetchFromSpotify({
       token: t,
-      endpoint: `artists/${selectedArtists[i].id}/top-tracks?country=US`,
-    });
-    console.log(response);
-    setTracks(response.tracks.slice(0, numberOfTracks));
-  };
+      endpoint: `artists/${selectedArtists[i].id}/top-tracks?country=US`
+    })
+    setTracks(response.tracks.slice(0, numberOfTracks))
+  }
 
   // fetch list of artists
   useEffect(() => {
@@ -69,6 +70,7 @@ const Game = () => {
     }
   }, [selectedArtists]);
 
+  // saves fetched options for a game round
   useEffect(() => {
     localStorage.setItem("artistChoices", JSON.stringify(selectedArtists));
     localStorage.setItem("chosenTracks", JSON.stringify(tracks));
@@ -87,18 +89,15 @@ const Game = () => {
 
   // saves the artist associated with the fetched tracks
   const storeCorrectArtist = (array, i) => {
-    setCorrectArtist(array[i]);
-  };
+  
+    setCorrectArtist(array[i])
+  }
 
-  //need to store selectedArtists, tracks, and correctArtist
   // console.log(storedToken)
   // console.log(genreSelection)
   // console.log(numberOfArtists)
   // console.log(numberOfTracks)
-  // // console.log(tracks)
-  // // console.log(artists)
-  // // console.log(artists[0])
-  // // console.log(`selectedArtists: ${selectedArtists}`)
+  // console.log(selectedArtists)
   // console.log(tracks)
   // console.log(correctArtist)
 
@@ -146,8 +145,8 @@ const Game = () => {
   }
 
   return (
-    <div>
-      <div>
+        <AudioPlayerProvider>
+          <AudioPlayer />      <div>
         remaining guesses:
         <span>{localStorage.getItem("remainingGuesses")}</span>
       </div>
@@ -177,7 +176,7 @@ const Game = () => {
           Submit Guess
         </button>
       </div>
-    </div>
+        </AudioPlayerProvider>
   );
 };
 
