@@ -1,65 +1,56 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-function handleFormSubmit() {
-  // formSubmitEvent.preventDefault();
+let artists = [
+  { name: "Citizen Cope", id: "1" },
+  { name: "Ludovico", id: "2" },
+  { name: "Led Z", id: "3" },
+  { name: "Audioslave", id: "4" },
+];
 
-  // console.log("You have guessed:", this.state.artists[this.state.checked].name);
-  // console.log(`You have guessed: ${this.state.checked}`);
-  console.log('You have guessed');
+let selectedArtist = artists[0];
+
+const Game = () => {
+
+  const [checkedIndex, setCheckedIndex] = useState(0);
   
+  function updateSelection(i){
+    setCheckedIndex(i);
+    console.log(`setCheckedIndex to ${i}`)
+    console.log(`artist at index ${i} is ${artists[i].name}`)
+    selectedArtist = artists[i];
+  }
+
+  function handleFormSubmit() {
+    console.log(`You have guessed index ${checkedIndex}: artist name: ${selectedArtist.name}`);
+  }
+
+  return (
+    <div>
+      <div>
+        {artists.map((artist, i) => {
+          return (
+            <label key={artist.id}>
+              <input
+                type="radio"
+                className={"form-check-input"}
+                checked={checkedIndex == i ? true : false}
+                key={artist.id}
+                // onChange={setCheckedIndex.bind(this, i)}  //works!
+                onChange={updateSelection.bind(this, i)}
+                value={artist.name}
+              />
+              {artist.name}
+            </label>
+          );
+        })}
+      </div>
+      <div className="form-group">
+        <button className="btn" type="submit" onClick={handleFormSubmit}>
+          Submit Guess
+        </button>
+      </div>
+    </div>
+  );
 };
 
-
-class Game extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: 0,
-      artists: [
-        { name: "Citizen Cope", id: "1" },
-        { name: "Ludovico", id: "2" },
-        { name: "Led Z", id: "3" },
-        { name: "Audioslave", id: "4" },
-      ],
-    };
-  }
-
-  onChange(i) {
-    this.setState({
-      checked: i,
-    });
-  }
-
-  
-  render() {
-    return (
-      <div>
-        <div>
-          {this.state.artists.map((option, i) => {
-            return (
-              <label key={option.id}>
-                <input
-                  type="radio"
-                  className={"form-check-input"}
-                  checked={this.state.checked == i ? true : false}
-                  key={option.id}
-                  onChange={this.onChange.bind(this, i)}
-                  value={option.name}
-                />
-                {option.name}
-              </label>
-            );
-          })}
-        </div>
-        <div className="form-group">
-          <button className="btn" type="submit" onClick={handleFormSubmit}>
-            Submit Guess
-          </button>
-        </div>
-      </div>
-    );
-  } 
-}
-
 export default Game;
-
