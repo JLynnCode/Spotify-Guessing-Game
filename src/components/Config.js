@@ -16,6 +16,7 @@ const Config = () => {
 
   function clickStartGame() {
     savePreferences();
+    console.log("starting game NOW!!")
   }
 
   
