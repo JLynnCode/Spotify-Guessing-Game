@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import Popup from "./PopUp/Pcomponents/Popup";
 
+import '../styles/ConfigStyles.css'
+
 let trackNumberList = [1, 2, 3];
 let artistNumberList = [2, 3, 4];
 
@@ -58,7 +60,7 @@ const Config = () => {
   // }, []);
 
   return (
-    <div>
+    <div className= "dropdowns">
       {/* //GENRE DROP DOWN */}
       <div>
         Genre:
@@ -109,7 +111,7 @@ const Config = () => {
         </select>
       </div>
       {/* Start Game Button */}
-      <div>
+      <div className= "start-btn">
         <button onClick={clickStartGame}>Start Game</button>
       </div>
 

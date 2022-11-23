@@ -1,0 +1,33 @@
+.dropdowns {
+
+   margin-left: 50rem;
+   margin-top: 10rem;
+}
+
+div {
+
+    padding: 0.5rem 0.5rem;
+}
+
+select {
+
+    margin-left: 0.5rem;
+    padding: 0.15rem 0.25rem;
+    border-radius: 3px;
+}
+
+.start-btn {
+
+    margin-left: 3.5rem;
+}
+
+button {
+
+    padding: 0.5rem 1rem;
+    border: 1px solid #000000;
+    font-weight: 700;
+    font-size: .75rem;
+    background: #7fcdff;
+    border-radius: 3px;
+    cursor: pointer;
+}
