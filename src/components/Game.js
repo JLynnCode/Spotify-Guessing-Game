@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
-import classes from "../styles/Game.css";
-import { AudioPlayerProvider } from 'react-use-audio-player'
-import { AudioPlayer } from './MediaPlayback/AudioPlayer'
+import classes from "../styles/Game.module.css";
+import { AudioPlayerProvider } from "react-use-audio-player";
+import { AudioPlayer } from "./MediaPlayback/AudioPlayer";
 
 const storedToken = JSON.parse(localStorage.getItem(TOKEN_KEY));
 
@@ -18,6 +18,8 @@ const Game = () => {
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [correctArtist, setCorrectArtist] = useState([]);
+
+  
 
   const genreSelection = localStorage.getItem("genrePreference");
   const numberOfTracks = JSON.parse(
@@ -42,10 +44,10 @@ const Game = () => {
   const loadTracks = async (t, i) => {
     const response = await fetchFromSpotify({
       token: t,
-      endpoint: `artists/${selectedArtists[i].id}/top-tracks?country=US`
-    })
-    setTracks(response.tracks.slice(0, numberOfTracks))
-  }
+      endpoint: `artists/${selectedArtists[i].id}/top-tracks?country=US`,
+    });
+    setTracks(response.tracks.slice(0, numberOfTracks));
+  };
 
   // fetch list of artists
   useEffect(() => {
@@ -89,9 +91,8 @@ const Game = () => {
 
   // saves the artist associated with the fetched tracks
   const storeCorrectArtist = (array, i) => {
-  
-    setCorrectArtist(array[i])
-  }
+    setCorrectArtist(array[i]);
+  };
 
   // console.log(storedToken)
   // console.log(genreSelection)
@@ -105,6 +106,8 @@ const Game = () => {
 
   const [checkedIndex, setCheckedIndex] = useState("");
 
+  
+
   function updateRadioChoice(i) {
     setCheckedIndex(i);
     console.log(`setCheckedIndex to ${i}`);
@@ -112,7 +115,7 @@ const Game = () => {
     guessedArtist = selectedArtists[i];
   }
 
-  function handleFormSubmit() {
+  function handleFormSubmit () {
     if (checkedIndex === "") {
       console.log("Please make a selection.");
     } else {
@@ -129,26 +132,51 @@ const Game = () => {
       let remainingGuesses = JSON.parse(
         localStorage.getItem("remainingGuesses")
       );
+      let guessScore = JSON.parse(localStorage.getItem("guessScore"));
 
-      if (guessedArtist.name !== correctArtist.name) {
+      if (guessedArtist.name === correctArtist.name) {
+        guessScore++;
+        localStorage.setItem("guessScore", guessScore);
+      } else {
         remainingGuesses--;
         localStorage.setItem("remainingGuesses", remainingGuesses);
       }
 
       if (remainingGuesses < 1) {
         console.log("Game Over");
+        let recordScore = JSON.parse(localStorage.getItem("recordScore"));
+        if(guessScore > recordScore){
+          console.log("new record score!!");
+          localStorage.setItem("recordScore", guessScore);
+        }
         setTimeout(() => history.push("/"), 3000);
       } else {
         setTimeout(() => history.go(0), 3000);
       }
     }
+    
   }
 
   return (
-        <AudioPlayerProvider>
-          <AudioPlayer />      <div>
+    <AudioPlayerProvider>
+      <AudioPlayer />{" "}
+      <div>
+        record score:
+        <span className={classes.badge}>
+          {localStorage.getItem("recordScore")}
+        </span>
+      </div>
+      <div>
+        guess score:
+        <span className={classes.badge}>
+          {localStorage.getItem("guessScore")}
+        </span>
+      </div>
+      <div>
         remaining guesses:
-        <span>{localStorage.getItem("remainingGuesses")}</span>
+        <span className={classes.badge}>
+          {localStorage.getItem("remainingGuesses")}
+        </span>
       </div>
       <div>
         <ul>
@@ -176,7 +204,7 @@ const Game = () => {
           Submit Guess
         </button>
       </div>
-        </AudioPlayerProvider>
+    </AudioPlayerProvider>
   );
 };
 

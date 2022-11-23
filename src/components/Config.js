@@ -20,6 +20,9 @@ const Config = () => {
       ? ""
       : localStorage.getItem("numberOfArtistsPreference")
   );
+  
+  
+
   const history = useHistory();
 
   function savePreferences() {
@@ -35,6 +38,12 @@ const Config = () => {
     setTimeout(() => history.push("/game"), 1000);
 
     console.log("starting game NOW!!");
+
+    localStorage.setItem("guessScore", 0);
+
+    if(localStorage.getItem("recordScore") == null){
+      localStorage.setItem("recordScore", 0);
+    }
   }
 
   return (
