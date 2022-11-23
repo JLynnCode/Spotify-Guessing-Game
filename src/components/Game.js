@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 
 import Popup from "./PopUp/Pcomponents/Popup";
 
-
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
 import "../styles/Game.css";
@@ -22,10 +21,8 @@ const Game = () => {
   const [tracks, setTracks] = useState([]);
   const [correctArtist, setCorrectArtist] = useState([]);
 
-
   const [buttonPopup, setButtonPopup] = useState(false);
   const [gameOverPopup, setGameOverPopup] = useState(false);
-
 
   const genreSelection = localStorage.getItem("genrePreference");
   const numberOfTracks = JSON.parse(
@@ -110,7 +107,6 @@ const Game = () => {
   }
 
   function handleFormSubmit() {
-
     if (checkedIndex === "") {
       console.log("Please make a selection.");
     } else {
@@ -155,54 +151,72 @@ const Game = () => {
 
   return (
     <AudioPlayerProvider>
-      <div className="scores">
-        <p>Record Score</p>
-        <span>{localStorage.getItem("recordScore")}</span>
-        <p>Current Score</p>
-        <span>{localStorage.getItem("recordScore")}</span>
-      </div>
-      <div className="game-ui">
-        <div className="audio">
-          <AudioPlayer />
-        </div>
-
-        <div className="artist-choices">
-          <p className="rem-p">Remaining Guesses</p>
-          <span className="remaining">
-            {localStorage.getItem("remainingGuesses")}
-          </span>
+      <div className="toolkit">
+        <div className="scores">
           <ul>
-            {selectedArtists.map((artist, i) => {
-              return (
-                <li>
-                  <label key={artist.id}>
-                    <input
-                      type="radio"
-                      className={"form-check-input"}
-                      checked={checkedIndex === i ? true : false}
-                      key={artist.id}
-                      onChange={updateRadioChoice.bind(this, i)}
-                      value={artist.name}
-                    />
-                    {artist.name}
-                  </label>
-                </li>
-              );
-            })}
+            <li>
+              <p>
+                Record Score
+                <span className="remaining">
+                  {localStorage.getItem("recordScore")}
+                </span>
+              </p>
+            </li>
+            <li>
+              <p>
+                Current Score
+                <span className="remaining">
+                  {localStorage.getItem("guessScore")}
+                </span>
+              </p>
+            </li>
           </ul>
-          <div className="form-group">
-            <button className="btn" type="submit" onClick={handleFormSubmit}>
-              Submit Guess
-            </button>
+        </div>
+        <div className="game-ui">
+          <div className="audio">
+            <AudioPlayer />
+          </div>
+
+          <div className="artist-choices">
+            <p className="rem-p">Remaining Guesses</p>
+            <span className="remaining">
+              {localStorage.getItem("remainingGuesses")}
+            </span>
+            <ul>
+              {selectedArtists.map((artist, i) => {
+                return (
+                  <li>
+                    <label key={artist.id}>
+                      <input
+                        type="radio"
+                        className={"form-check-input"}
+                        checked={checkedIndex === i ? true : false}
+                        key={artist.id}
+                        onChange={updateRadioChoice.bind(this, i)}
+                        value={artist.name}
+                      />
+                      {artist.name}
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="form-group">
+              <button className="btn" type="submit" onClick={handleFormSubmit}>
+                Submit Guess
+              </button>
+            </div>
           </div>
         </div>
+        <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+          {guessedArtist.name === correctArtist.name
+            ? "Correct!!!"
+            : "sorry... not correct"}
+        </Popup>
+        <Popup trigger={gameOverPopup} setTrigger={setGameOverPopup}>
+          {`Game Over.`}
+        </Popup>
       </div>
-      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-        {guessedArtist.name === correctArtist.name ? "Correct!!!" : "sorry... not correct"}
-      </Popup>
-      <Popup trigger={gameOverPopup} setTrigger={setGameOverPopup}>
-        {`Game Over.`}
-      </Popup>
     </AudioPlayerProvider>
   );
 };
