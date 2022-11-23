@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import Popup from "./PopUp/Pcomponents/Popup";
+
+
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
 import "../styles/Game.css";
@@ -18,6 +21,11 @@ const Game = () => {
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [correctArtist, setCorrectArtist] = useState([]);
+
+
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const [gameOverPopup, setGameOverPopup] = useState(false);
+
 
   const genreSelection = localStorage.getItem("genrePreference");
   const numberOfTracks = JSON.parse(
@@ -102,6 +110,7 @@ const Game = () => {
   }
 
   function handleFormSubmit() {
+
     if (checkedIndex === "") {
       console.log("Please make a selection.");
     } else {
@@ -129,6 +138,7 @@ const Game = () => {
       }
 
       if (remainingGuesses < 1) {
+        setGameOverPopup(true);
         console.log("Game Over");
         let recordScore = JSON.parse(localStorage.getItem("recordScore"));
         if (guessScore > recordScore) {
@@ -137,6 +147,7 @@ const Game = () => {
         }
         setTimeout(() => history.push("/"), 3000);
       } else {
+        setButtonPopup(true);
         setTimeout(() => history.go(0), 3000);
       }
     }
@@ -186,6 +197,12 @@ const Game = () => {
           </div>
         </div>
       </div>
+      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+        {guessedArtist.name === correctArtist.name ? "Correct!!!" : "sorry... not correct"}
+      </Popup>
+      <Popup trigger={gameOverPopup} setTrigger={setGameOverPopup}>
+        {`Game Over.`}
+      </Popup>
     </AudioPlayerProvider>
   );
 };

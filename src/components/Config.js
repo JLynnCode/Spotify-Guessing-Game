@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+
+import Popup from "./PopUp/Pcomponents/Popup";
 
 let trackNumberList = [1, 2, 3];
 let artistNumberList = [2, 3, 4];
@@ -20,8 +22,9 @@ const Config = () => {
       ? ""
       : localStorage.getItem("numberOfArtistsPreference")
   );
-  
-  
+
+  const [buttonPopup, setButtonPopup] = useState(false);
+  // const [timedPopup, setTimedPopup] = useState(false);
 
   const history = useHistory();
 
@@ -32,19 +35,27 @@ const Config = () => {
   }
 
   function clickStartGame() {
+    setButtonPopup(true);
+
     savePreferences();
     localStorage.setItem("remainingGuesses", 3);
 
-    setTimeout(() => history.push("/game"), 1000);
+    setTimeout(() => history.push("/game"), 3000);
 
     console.log("starting game NOW!!");
 
     localStorage.setItem("guessScore", 0);
 
-    if(localStorage.getItem("recordScore") == null){
+    if (localStorage.getItem("recordScore") == null) {
       localStorage.setItem("recordScore", 0);
     }
   }
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setTimedPopup(false);
+  //   }, 3000);
+  // }, []);
 
   return (
     <div>
@@ -100,6 +111,28 @@ const Config = () => {
       {/* Start Game Button */}
       <div>
         <button onClick={clickStartGame}>Start Game</button>
+      </div>
+
+
+
+
+      <div className="App">
+        {/* <main>
+          <h1>React Popups</h1>
+          <br />
+          <br />
+          <button onClick={() => setButtonPopup(true)}>Open Popups</button>
+        </main> */}
+
+        <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+          <h3>Let the game begin!</h3>
+          <p>here we go...</p>
+        </Popup>
+
+        {/* <Popup trigger={timedPopup} setTrigger={setTimedPopup}>
+          <h3>My Timedpopup</h3>
+          <p>This is my timer triggered popup</p>
+        </Popup> */}
       </div>
     </div>
   );
