@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
-import classes from "../styles/Game.css";
+import "../styles/Game.css";
 import { AudioPlayerProvider } from 'react-use-audio-player'
 import { AudioPlayer } from './MediaPlayback/AudioPlayer'
 
@@ -93,16 +93,6 @@ const Game = () => {
     setCorrectArtist(array[i])
   }
 
-  // console.log(storedToken)
-  // console.log(genreSelection)
-  // console.log(numberOfArtists)
-  // console.log(numberOfTracks)
-  // console.log(selectedArtists)
-  // console.log(tracks)
-  // console.log(correctArtist)
-
-  //==============MICHAEL MERGES BELOW THIS===================
-
   const [checkedIndex, setCheckedIndex] = useState("");
 
   function updateRadioChoice(i) {
@@ -145,34 +135,44 @@ const Game = () => {
   }
 
   return (
-        <AudioPlayerProvider>
-          <AudioPlayer />      <div>
-        remaining guesses:
-        <span>{localStorage.getItem("remainingGuesses")}</span>
-      </div>
-      <div>
-        {selectedArtists.map((artist, i) => {
-          return (
-            <label key={artist.id}>
-              <input
-                type="radio"
-                className={"form-check-input"}
-                checked={checkedIndex === i ? true : false}
-                key={artist.id}
-                onChange={updateRadioChoice.bind(this, i)}
-                value={artist.name}
-              />
-              {artist.name}
-            </label>
-          );
-        })}
-      </div>
-      <div className="form-group">
-        <button className="btn" type="submit" onClick={handleFormSubmit}>
-          Submit Guess
-        </button>
-      </div>
-        </AudioPlayerProvider>
+    <AudioPlayerProvider>
+      <div className = "game-ui">
+        <div className = "audio">
+          <AudioPlayer />
+        </div>
+
+
+
+          <div className= "artist-choices">
+            <p className= "rem-p">Remaining Guesses</p>
+            <span className="remaining">{localStorage.getItem("remainingGuesses")}</span>
+            <ul>
+              {selectedArtists.map((artist, i) => {
+                return (
+                  <li>
+                  <label key={artist.id}>
+                    <input
+                      type="radio"
+                      className={"form-check-input"}
+                      checked={checkedIndex === i ? true : false}
+                      key={artist.id}
+                      onChange={updateRadioChoice.bind(this, i)}
+                      value={artist.name}
+                    />
+                    {artist.name}
+                  </label>
+                </li>
+              );
+            })}
+            </ul>
+            <div className="form-group">
+              <button className="btn" type="submit" onClick={handleFormSubmit}>
+                Submit Guess
+              </button>
+            </div>
+          </div>
+        </div>
+    </AudioPlayerProvider>
   );
 };
 

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useAudioPlayer } from 'react-use-audio-player'
+import '../../styles/AudioPlayerStyles.css'
 
 const tracks = JSON.parse(localStorage.getItem('chosenTracks'))
 let songs = tracks.map(t => t.preview_url)
+let titles = tracks.map(t => t.name)
 
 export const AudioPlayer = () => {
 
@@ -22,9 +24,6 @@ export const AudioPlayer = () => {
 
     if(songIndex < songs.length){
       setSongIndex(songIndex + 1)
-      load({
-        play: () => songs[songIndex]
-      })
     }
   }
 
@@ -32,7 +31,6 @@ export const AudioPlayer = () => {
 
     if(songIndex > 0){
       setSongIndex(songIndex - 1)
-      play(songs[songIndex])
     }
   }
 
@@ -42,10 +40,13 @@ export const AudioPlayer = () => {
   console.log(songs)
 
   return (
-    <div>
-      <button onClick={prevTrack}>Prev Track</button>
-      <button onClick={togglePlayPause}>{playing ? "Pause" : "Play"}</button>
-      <button onClick={nextTrack}>Next Track</button>
+    <div className= "player">
+      <p>Now Playing: { titles[songIndex] }</p>
+      <div className= "controls">
+        <button className= "btn" onClick={prevTrack}>Prev</button>
+        <button className= "btn" onClick={togglePlayPause}>{playing ? "Pause" : "Play"}</button>
+        <button className= "btn" onClick={nextTrack}>Next</button>
+      </div>
     </div>
   )
 }
