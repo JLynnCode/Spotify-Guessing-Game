@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import Popup from "./PopUp/Pcomponents/Popup";
+
+
 import fetchFromSpotify, { request } from "../services/api";
 import { TOKEN_KEY } from "./Home";
 import classes from "../styles/Game.module.css";
@@ -19,7 +22,8 @@ const Game = () => {
   const [tracks, setTracks] = useState([]);
   const [correctArtist, setCorrectArtist] = useState([]);
 
-  
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const [gameOverPopup, setGameOverPopup] = useState(false);
 
   const genreSelection = localStorage.getItem("genrePreference");
   const numberOfTracks = JSON.parse(
@@ -106,8 +110,6 @@ const Game = () => {
 
   const [checkedIndex, setCheckedIndex] = useState("");
 
-  
-
   function updateRadioChoice(i) {
     setCheckedIndex(i);
     console.log(`setCheckedIndex to ${i}`);
@@ -115,7 +117,8 @@ const Game = () => {
     guessedArtist = selectedArtists[i];
   }
 
-  function handleFormSubmit () {
+  function handleFormSubmit() {
+    
     if (checkedIndex === "") {
       console.log("Please make a selection.");
     } else {
@@ -143,18 +146,19 @@ const Game = () => {
       }
 
       if (remainingGuesses < 1) {
+        setGameOverPopup(true);
         console.log("Game Over");
         let recordScore = JSON.parse(localStorage.getItem("recordScore"));
-        if(guessScore > recordScore){
+        if (guessScore > recordScore) {
           console.log("new record score!!");
           localStorage.setItem("recordScore", guessScore);
         }
         setTimeout(() => history.push("/"), 3000);
       } else {
+        setButtonPopup(true);
         setTimeout(() => history.go(0), 3000);
       }
     }
-    
   }
 
   return (
@@ -204,6 +208,12 @@ const Game = () => {
           Submit Guess
         </button>
       </div>
+      <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+        {guessedArtist.name === correctArtist.name ? "Correct!!!" : "sorry... not correct"}
+      </Popup>
+      <Popup trigger={gameOverPopup} setTrigger={setGameOverPopup}>
+        {`Game Over.`}
+      </Popup>
     </AudioPlayerProvider>
   );
 };
